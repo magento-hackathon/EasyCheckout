@@ -59,7 +59,10 @@ class Easycheckout extends Template
      */
     public function getQuoteIdMask()
     {
-        $quoteIdMask = $this->quoteIdMaskFactory->create()->load($this->getCheckoutSession()->getQuoteId(), 'quote_id')->getMaskedId();
-        return $quoteIdMask;
+        $quoteId = $this->getCheckoutSession()->getQuoteId();
+        return $this->quoteIdMaskFactory
+            ->create()
+            ->load($quoteId, 'quote_id')
+            ->getMaskedId();
     }
 }
