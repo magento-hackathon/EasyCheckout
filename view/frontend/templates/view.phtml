@@ -1,20 +1,52 @@
+<?php $quote = $this->getCheckoutSession()->getQuote(); ?>
+<?php $config = $this->getConfig(); ?>
 <fieldset class="fieldset">
     <form action="" id="shipping-address">
         <div class="field name required">
             <label class="label" for="name"><span>Firstname</span></label>
             <div class="control">
-                <input name="firstname" id="firstname" title="Firstname" value="" class="input-text" type="text">
+                <input name="firstname" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getFirstname(); ?>" class="input-text" type="text">
             </div>
         </div>
         <div class="field name required">
             <label class="label" for="name"><span>Lastname</span></label>
             <div class="control">
-                <input name="lastname" id="firstname" title="Firstname" value="" class="input-text" type="text">
+                <input name="lastname" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getLastname(); ?>" class="input-text" type="text">
+            </div>
+        </div>
+        <div class="field name required">
+            <label class="label" for="name"><span>City</span></label>
+            <div class="control">
+                <input name="city" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getCity(); ?>" class="input-text" type="text">
+            </div>
+        </div>
+        <div class="field name required">
+            <label class="label" for="name"><span>Postcode</span></label>
+            <div class="control">
+                <input name="postcode" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getPostcode(); ?>" class="input-text" type="text">
+            </div>
+        </div>
+        <div class="field name required">
+            <label class="label" for="name"><span>Street</span></label>
+            <div class="control">
+                <input name="street" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getStreetLine(1); ?>" class="input-text" type="text">
+            </div>
+        </div>
+        <div class="field name required">
+            <label class="label" for="name"><span>Countryid</span></label>
+            <div class="control">
+                <input name="countryId" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getCountryId(); ?>" class="input-text" type="text">
             </div>
         </div>
         <button type="submit">save</button>
     </form>
 </fieldset>
+
+<ul>
+    <?php //foreach($config['payment'] as $payment); ?>
+        
+    <?php ///endforeach; ?>
+</ul>
 
 
 <script>
@@ -28,16 +60,20 @@
                 jQuery.each(jQuery(this).serializeArray(),function(){
                     result[this.name] = this.value;
                 });
+                result['street'] = [result['street']];
                 
                 address['shipping_address'] = result;
+                address['billing_address'] = result;
+                address['shipping_method_code'] = 'flatrate';
+                address['shipping_carrier_code'] = 'flatrate';
+                
                 data['addressInformation'] = address;
-                console.log(data);
-                console.log(JSON.stringify(data));
+                           
                 jQuery.ajax({
                   type: "POST",
-                  url: "/rest/default/V1/guest-carts/7874392b6d1f6eef0cacb8ba1eb6781f/shipping-information<?php //echo $this->getUrl('/rest/default/V1/guest-carts/ba7412783826dfa2aa42bc6375da6138/shipping-information',array('_secure'=>true)); ?>",
                   data: JSON.stringify(data),
                   contentType: "application/json; charset=utf-8",                  
+                  url: "/rest/default/V1/guest-carts/<?php echo $this->getQuoteIdMask() ?>/shipping-information<?php //echo $this->getUrl('/rest/default/V1/guest-carts/ba7412783826dfa2aa42bc6375da6138/shipping-information',array('_secure'=>true)); ?>",
                   dataType: 'json',              
                   success: function(){
                   },
@@ -48,7 +84,7 @@
         
     });
 </script>
-
-<?php //var_dump($this->getConfig()); ?>
+<pre>
+<?php print_r($this->getConfig()); ?>
 <?php //var_dump($this->getQuoteIdMask()); ?>
 
