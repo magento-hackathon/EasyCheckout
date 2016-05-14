@@ -13,53 +13,53 @@
 
 <h2>address</h2>
 
-<fieldset class="fieldset">
     <form action="" id="shipping-address">
-        <div class="field name required">
+        <fieldset class="fieldset">
+        <div class="field required">
             <label class="label" for="name"><span>Firstname</span></label>
             <div class="control">
-                <input name="firstname" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getFirstname(); ?>" class="input-text" type="text">
+                <input name="firstname" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getFirstname(); ?>" class="input-text required-entry" type="text">
             </div>
         </div>
         <div class="field name required">
-            <label class="label" for="name"><span>Lastname</span></label>
+            <label class="label" for="lastname"><span>Lastname</span></label>
             <div class="control">
-                <input name="lastname" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getLastname(); ?>" class="input-text" type="text">
+                <input name="lastname" id="lastname" title="lastname" value="<?php echo $quote->getShippingAddress()->getLastname(); ?>" class="input-text required-entry" type="text">
             </div>
         </div>
         <div class="field name required">
             <label class="label" for="name"><span>City</span></label>
             <div class="control">
-                <input name="city" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getCity(); ?>" class="input-text" type="text">
+                <input name="city" id="city" title="City" value="<?php echo $quote->getShippingAddress()->getCity(); ?>" class="input-text required-entry" type="text">
             </div>
         </div>
-        <div class="field name required">
-            <label class="label" for="name"><span>Telephone</span></label>
+        <div class="field required">
+            <label class="label" for="telephone"><span>Telephone</span></label>
             <div class="control">
-                <input name="telephone" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getTelephone(); ?>" class="input-text" type="text">
+                <input name="telephone" id="telephone" title="Telephone" value="<?php echo $quote->getShippingAddress()->getTelephone(); ?>" class="input-text required-entry" type="text">
             </div>
         </div>
-        <div class="field name required">
-            <label class="label" for="name"><span>Postcode</span></label>
+        <div class="field required">
+            <label class="label" for="postcode"><span>Postcode</span></label>
             <div class="control">
-                <input name="postcode" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getPostcode(); ?>" class="input-text" type="text">
+                <input name="postcode" id="postcode" title="Postcode" value="<?php echo $quote->getShippingAddress()->getPostcode(); ?>" class="input-text required-entry" type="text">
             </div>
         </div>
-        <div class="field name required">
+        <div class="field required">
             <label class="label" for="name"><span>Street</span></label>
             <div class="control">
-                <input name="street" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getStreetLine(1); ?>" class="input-text" type="text">
+                <input name="street" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getStreetLine(1); ?>" class="input-text required-entry" type="text">
             </div>
         </div>
-        <div class="field name required">
+        <div class="field required">
             <label class="label" for="name"><span>Countryid</span></label>
             <div class="control">
-                <input name="countryId" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getCountryId(); ?>" class="input-text" type="text">
+                <input name="countryId" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getCountryId(); ?>" class="input-text required-entry" type="text">
             </div>
         </div>
         <button type="submit">save</button>
+        </fieldset>
     </form>
-</fieldset>
 
 <h2>shipping methods</h2>
 <ul>
@@ -88,14 +88,14 @@
 <button id="place-order" class="action primary">Place Order</button>
 
 <script>
-    require(['jquery'], function(){
+    require(['jquery','mage/validation'], function(){
         //quote, urlBuilder, storage, url, errorProcessor, customer, fullScreenLoader
         //console.log(
             //urlBuilder.createUrl('/guest-carts/:quoteId/payment-information', {quoteId: quote.getQuoteId()})
         //);
 
         jQuery(document).ready(function(){
-            jQuery('#shipping-address').submit(function(){
+            jQuery('#shipping-address').validation().submit(function(){
                 var data = {};
                 var address = {};
                 
@@ -167,6 +167,6 @@
     });
 </script>
 
-<?php print_r($this->getConfig()); ?>
+<?php //print_r($this->getConfig()); ?>
 <?php //var_dump($this->getQuoteIdMask()); ?>
 
