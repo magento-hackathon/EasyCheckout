@@ -1,6 +1,16 @@
 <?php $quote = $this->getCheckoutSession()->getQuote(); ?>
 <?php $config = $this->getConfig(); ?>
 
+<h2>email</h2>
+<fieldset class="fieldset">
+    <div class="field name required">
+        <label class="label" for="name"><span>Email</span></label>
+        <div class="control">
+            <input name="email" id="firstname" title="Firstname" value="<?php echo $quote->getCustomerEmail(); ?>" class="input-text" type="text">
+        </div>
+    </div>
+</fieldset>
+
 <h2>address</h2>
 
 <fieldset class="fieldset">
@@ -75,11 +85,15 @@
     </ul>
 </div>
 
-<button id="place-order">Place Order</button>
-
+<button id="place-order" class="action primary">Place Order</button>
 
 <script>
     require(['jquery'], function(){
+        //quote, urlBuilder, storage, url, errorProcessor, customer, fullScreenLoader
+        //console.log(
+            //urlBuilder.createUrl('/guest-carts/:quoteId/payment-information', {quoteId: quote.getQuoteId()})
+        //);
+
         jQuery(document).ready(function(){
             jQuery('#shipping-address').submit(function(){
                 var data = {};
@@ -109,11 +123,6 @@
                 });
                 event.preventDefault();
             });
-            jQuery('.payment-method').click(function(){
-               alert(jQuery(this).val());
-               
-               
-            });
             
             jQuery('#place-order').click(function(){
                 
@@ -140,8 +149,9 @@
                   contentType: "application/json; charset=utf-8",                  
                   url: "/rest/default/V1/guest-carts/<?php echo $this->getQuoteIdMask() ?>/payment-information",
                   dataType: 'json',              
-                  success: function(){
-                  },
+                  success: function(response){
+                        window.location.replace('/checkout/onepage/success');
+                  }
                 });
                 
             });
