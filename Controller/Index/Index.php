@@ -1,6 +1,6 @@
 <?php
 
-namespace Hackathon\Easycheckout\Controller\Easycheckout;
+namespace Hackathon\Easycheckout\Controller\Index;
 class Index extends \Magento\Framework\App\Action\Action
 {
     protected $resultPageFactory;
