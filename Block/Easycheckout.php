@@ -10,7 +10,7 @@ class Easycheckout extends Template
     protected $customerSession;
     protected $checkoutSession;
     protected $quoteIdMaskFactory;
-
+    protected $paymentMethodList;
 
     /**
      * Easycheckout constructor.
@@ -20,6 +20,7 @@ class Easycheckout extends Template
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory
+     * @param \Magento\Payment\Model\MethodList $paymentMethodList
      */
     public function __construct(
         Template\Context $context,
@@ -27,7 +28,8 @@ class Easycheckout extends Template
         \Magento\Checkout\Model\CompositeConfigProvider $configProvider,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory
+        \Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory,
+        \Magento\Payment\Model\MethodList $paymentMethodList
     )
     {
         parent::__construct($context, $data);
@@ -36,6 +38,7 @@ class Easycheckout extends Template
         $this->customerSession = $customerSession;
         $this->checkoutSession = $checkoutSession;
         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
+        $this->paymentMethodList = $paymentMethodList;
     }
 
     /**
@@ -64,5 +67,11 @@ class Easycheckout extends Template
             ->create()
             ->load($quoteId, 'quote_id')
             ->getMaskedId();
+    }
+
+    public function getAvailablePaymentMethods()
+    {
+        $quote = $this->getCheckoutSession()->getQuote();
+        return $this->paymentMethodList->getAvailableMethods($quote);
     }
 }
