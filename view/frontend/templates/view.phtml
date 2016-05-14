@@ -27,7 +27,7 @@
                 var result = {};
                 jQuery.each(jQuery(this).serializeArray(),function(){
                     result[this.name] = this.value;
-                })​;
+                });
                 
                 address['shipping_address'] = result;
                 data['addressInformation'] = address;
