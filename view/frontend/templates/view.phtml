@@ -1,5 +1,8 @@
 <?php $quote = $this->getCheckoutSession()->getQuote(); ?>
 <?php $config = $this->getConfig(); ?>
+
+<h2>address</h2>
+
 <fieldset class="fieldset">
     <form action="" id="shipping-address">
         <div class="field name required">
@@ -18,6 +21,12 @@
             <label class="label" for="name"><span>City</span></label>
             <div class="control">
                 <input name="city" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getCity(); ?>" class="input-text" type="text">
+            </div>
+        </div>
+        <div class="field name required">
+            <label class="label" for="name"><span>Telephone</span></label>
+            <div class="control">
+                <input name="telephone" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getTelephone(); ?>" class="input-text" type="text">
             </div>
         </div>
         <div class="field name required">
@@ -42,11 +51,31 @@
     </form>
 </fieldset>
 
+<h2>shipping methods</h2>
 <ul>
-    <?php //foreach($config['payment'] as $payment); ?>
-        
-    <?php ///endforeach; ?>
+    <?php foreach($config['activeCarriers'] as $shippingMethod): ?>
+        <li><?php echo $shippingMethod;?></li>
+    <?php endforeach; ?>
 </ul>
+
+<h2>payment methods</h2>
+<ul>
+    <?php foreach($this->getAvailablePaymentMethods() as $paymentMethod): ?>
+        <li><input type="radio" value="<?php echo $paymentMethod->getCode(); ?>"/><?php echo $paymentMethod->getTitle(); ?></li>
+    <?php endforeach; ?>
+</ul>
+
+
+<h2>review</h2>
+<div id="review">
+    <ul>
+    <?php foreach($quote->getAllVisibleItems() as $item):?>
+        <li><?php echo $item->getName(); ?></li>
+    <?php endforeach; ?>
+    </ul>
+</div>
+
+<button id="place-order">Place Order</button>
 
 
 <script>
@@ -73,18 +102,61 @@
                   type: "POST",
                   data: JSON.stringify(data),
                   contentType: "application/json; charset=utf-8",                  
-                  url: "/rest/default/V1/guest-carts/<?php echo $this->getQuoteIdMask() ?>/shipping-information<?php //echo $this->getUrl('/rest/default/V1/guest-carts/ba7412783826dfa2aa42bc6375da6138/shipping-information',array('_secure'=>true)); ?>",
+                  url: "/rest/default/V1/guest-carts/<?php echo $this->getQuoteIdMask() ?>/shipping-information",
                   dataType: 'json',              
                   success: function(){
                   },
                 });
                 event.preventDefault();
             });
+            jQuery('.payment-method').click(function(){
+               alert(jQuery(this).val());
+               
+               
+            });
+            
+            jQuery('#place-order').click(function(){
+                
+                var data = {};
+                var address = {};
+                var payment = {};
+                
+                var result = {};
+                jQuery.each(jQuery('#shipping-address').serializeArray(),function(){
+                    result[this.name] = this.value;
+                });
+                result['street'] = [result['street']];
+                
+               data['billing_address'] = result;
+               data['cartId'] = '<?php echo $this->getQuoteIdMask() ?>';
+               data['email'] = 'derrick@experius.nl';
+               
+               payment['method'] = "checkmo";
+               data['paymentMethod'] = payment;
+                
+               jQuery.ajax({
+                  type: "POST",
+                  data: JSON.stringify(data),
+                  contentType: "application/json; charset=utf-8",                  
+                  url: "/rest/default/V1/guest-carts/<?php echo $this->getQuoteIdMask() ?>/payment-information",
+                  dataType: 'json',              
+                  success: function(){
+                  },
+                });
+                
+            });
+            
+            
+            //rest/default/V1/guest-carts/65b64a1192f5fe4cc9474404668a7cca/payment-information
+            
+            //{"cartId":"65b64a1192f5fe4cc9474404668a7cca","email":"derrick@experius.nl","paymentMethod":{"method":"checkmo","po_number":null,"additional_data":null},"billingAddress":{"countryId":"NL","regionId":"0","region":"","street":["Voorstraat 82BIS"],"company":"Heesbeen Webservices","telephone":"+31649354289","postcode":"3512 AT","city":"Utrecht","firstname":"Derrick","lastname":"Heesbeen","saveInAddressBook":false}}
+            
+        
         });
         
     });
 </script>
-<pre>
-<?php print_r($this->getConfig()); ?>
+
+<?php //print_r($this->getConfig()); ?>
 <?php //var_dump($this->getQuoteIdMask()); ?>
 
