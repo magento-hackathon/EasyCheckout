@@ -25,9 +25,9 @@
                 var address = {};
                 
                 var result = {};
-                jQuery.each(​jQuery(this).serializeArray()​,function(){
+                jQuery.each(jQuery(this).serializeArray(),function(){
                     result[this.name] = this.value;
-                })​;
+                });
                 
                 address['shipping_address'] = result;
                 data['addressInformation'] = address;
@@ -35,13 +35,9 @@
                 console.log(JSON.stringify(data));
                 jQuery.ajax({
                   type: "POST",
-                  //contentType: "application/json; charset=utf-8",
                   url: "/rest/default/V1/guest-carts/7874392b6d1f6eef0cacb8ba1eb6781f/shipping-information<?php //echo $this->getUrl('/rest/default/V1/guest-carts/ba7412783826dfa2aa42bc6375da6138/shipping-information',array('_secure'=>true)); ?>",
-                  //data: JSON.stringify(data),
-                  contentType: "application/json; charset=utf-8",
-                  //data: '{"addressInformation":{"shipping_address":{"countryId":"NL","regionId":"0","region":"","street":["test"],"company":"Test","telephone":"11111111111","postcode":"5571 KB","city":"qweqwe","firstname":"Sam","lastname":"Granger"},"billing_address":{"countryId":"NL","regionId":"0","region":"","street":["test"],"company":"Test","telephone":"11111111111","postcode":"5571 KB","city":"qweqwe","firstname":"Sam","lastname":"Granger","saveInAddressBook":false},"shipping_method_code":"flatrate","shipping_carrier_code":"flatrate"}}',
-                  data: '{"addressInformation":{"shipping_address":{"firstname":"","lastname":""}}}',
-                  
+                  data: JSON.stringify(data),
+                  contentType: "application/json; charset=utf-8",                  
                   dataType: 'json',              
                   success: function(){
                   },
@@ -53,6 +49,6 @@
     });
 </script>
 
-<?php var_dump($this->getConfig()); ?>
-<?php var_dump($this->getQuoteIdMask()); ?>
+<?php //var_dump($this->getConfig()); ?>
+<?php //var_dump($this->getQuoteIdMask()); ?>
 
