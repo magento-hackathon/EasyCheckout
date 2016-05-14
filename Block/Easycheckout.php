@@ -11,6 +11,8 @@ class Easycheckout extends Template
     protected $checkoutSession;
     protected $quoteIdMaskFactory;
     protected $paymentMethodList;
+    protected $objectManager;
+    protected $storeManager;
 
     /**
      * Easycheckout constructor.
@@ -21,6 +23,8 @@ class Easycheckout extends Template
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory
      * @param \Magento\Payment\Model\MethodList $paymentMethodList
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         Template\Context $context,
@@ -29,7 +33,9 @@ class Easycheckout extends Template
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory,
-        \Magento\Payment\Model\MethodList $paymentMethodList
+        \Magento\Payment\Model\MethodList $paymentMethodList,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     )
     {
         parent::__construct($context, $data);
@@ -39,6 +45,8 @@ class Easycheckout extends Template
         $this->checkoutSession = $checkoutSession;
         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
         $this->paymentMethodList = $paymentMethodList;
+        $this->objectManager = $objectManager;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -67,6 +75,17 @@ class Easycheckout extends Template
             ->create()
             ->load($quoteId, 'quote_id')
             ->getMaskedId();
+    }
+
+    public function getDirectoryHelper()
+    {
+        return $this->objectManager->get('Magento\Directory\Helper\Data');
+    }
+
+    public function getCountries()
+    {
+        $store = $this->storeManager->getStore();
+        return $this->getDirectoryHelper()->getCountryCollection($store);
     }
 
     public function getAvailablePaymentMethods()
