@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\Checkout\Block\Onepage\Link">
+        <plugin name="hackathon_easycheckout_checkout_onepage_link" type="Hackathon\Easycheckout\Plugin\LinkPlugin" sortOrder="10" disabled="false"/>
+    </type>
+    <type name="Magento\Checkout\Block\Cart">
+        <plugin name="hackathon_easycheckout_checkout_cart" type="Hackathon\Easycheckout\Plugin\LinkPlugin" sortOrder="10" disabled="false"/>
+    </type>
+    <type name="Magento\Checkout\Block\Cart\Sidebar">
+        <plugin name="hackathon_easycheckout_checkout_cart_sidebar" type="Hackathon\Easycheckout\Plugin\LinkPlugin" sortOrder="10" disabled="false"/>
+    </type>
+</config>
