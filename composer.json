@@ -1,0 +1,19 @@
+{
+  "name": "hackathon/easycheckout",
+  "description": "Simplefied checkout for magento 2",
+  "type": "magento2-module",
+  "license": "OSL-3.0",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "magento/module-checkout": "100.0.*",
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Hackathon\\Easycheckout\\": ""
+    }
+  }
+}
