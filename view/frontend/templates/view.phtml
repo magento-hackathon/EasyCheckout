@@ -54,7 +54,11 @@
         <div class="field required">
             <label class="label" for="name"><span>Countryid</span></label>
             <div class="control">
-                <input name="countryId" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getCountryId(); ?>" class="input-text required-entry" type="text">
+                <select  name="countryId" id="firstname" title="Firstname" value="<?php echo $quote->getShippingAddress()->getCountryId(); ?>" class="input-text required-entry" type="text">
+                <?php foreach($this->getCountries() as $country): ?>
+                  <option value="<?php echo $country->getCountryId(); ?>" <?php if($quote->getShippingAddress()->getCountryId() === $country->getCountryId()):?> selected<?php endif; ?>><?php echo $country->getName(); ?></p>
+                <?php endforeach; ?>
+                </select>
             </div>
         </div>
         <button type="submit">save</button>
